@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="game.logic.dao.Game_usersMapper" >
+  <resultMap id="BaseResultMap" type="game.logic.model.Game_users" >
+    <id column="numid" property="numid" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="passwd" property="passwd" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="head" property="head" jdbcType="INTEGER" />
+    <result column="devid" property="devid" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="right" property="right" jdbcType="INTEGER" />
+    <result column="gold" property="gold" jdbcType="BIGINT" />
+    <result column="diamond" property="diamond" jdbcType="BIGINT" />
+    <result column="areaid" property="areaid" jdbcType="INTEGER" />
+    <result column="channelid" property="channelid" jdbcType="INTEGER" />
+    <result column="ftime" property="ftime" jdbcType="TIMESTAMP" />
+    <result column="usertype" property="usertype" jdbcType="INTEGER" />
+    <result column="olduserid" property="olduserid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    numid, userid, nickname, passwd, sex, head, devid, mobile, realname, `right`, gold, 
+    diamond, areaid, channelid, ftime, usertype, olduserid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_users
+    where numid = #{numid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game_users
+    where numid = #{numid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="game.logic.model.Game_users" >
+    insert into game_users (numid, userid, nickname, 
+      passwd, sex, head, 
+      devid, mobile, realname, 
+      `right`, gold, diamond, 
+      areaid, channelid, ftime, 
+      usertype, olduserid)
+    values (#{numid,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{passwd,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{head,jdbcType=INTEGER}, 
+      #{devid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{right,jdbcType=INTEGER}, #{gold,jdbcType=BIGINT}, #{diamond,jdbcType=BIGINT}, 
+      #{areaid,jdbcType=INTEGER}, #{channelid,jdbcType=INTEGER}, #{ftime,jdbcType=TIMESTAMP}, 
+      #{usertype,jdbcType=INTEGER}, #{olduserid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="game.logic.model.Game_users" >
+    insert into game_users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="numid != null" >
+        numid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="passwd != null" >
+        passwd,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="head != null" >
+        head,
+      </if>
+      <if test="devid != null" >
+        devid,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="right != null" >
+        `right`,
+      </if>
+      <if test="gold != null" >
+        gold,
+      </if>
+      <if test="diamond != null" >
+        diamond,
+      </if>
+      <if test="areaid != null" >
+        areaid,
+      </if>
+      <if test="channelid != null" >
+        channelid,
+      </if>
+      <if test="ftime != null" >
+        ftime,
+      </if>
+      <if test="usertype != null" >
+        usertype,
+      </if>
+      <if test="olduserid != null" >
+        olduserid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="numid != null" >
+        #{numid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null" >
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="head != null" >
+        #{head,jdbcType=INTEGER},
+      </if>
+      <if test="devid != null" >
+        #{devid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="right != null" >
+        #{right,jdbcType=INTEGER},
+      </if>
+      <if test="gold != null" >
+        #{gold,jdbcType=BIGINT},
+      </if>
+      <if test="diamond != null" >
+        #{diamond,jdbcType=BIGINT},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=INTEGER},
+      </if>
+      <if test="channelid != null" >
+        #{channelid,jdbcType=INTEGER},
+      </if>
+      <if test="ftime != null" >
+        #{ftime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="olduserid != null" >
+        #{olduserid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="game.logic.model.Game_users" >
+    update game_users
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null" >
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="head != null" >
+        head = #{head,jdbcType=INTEGER},
+      </if>
+      <if test="devid != null" >
+        devid = #{devid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="right != null" >
+        `right` = #{right,jdbcType=INTEGER},
+      </if>
+      <if test="gold != null" >
+        gold = #{gold,jdbcType=BIGINT},
+      </if>
+      <if test="diamond != null" >
+        diamond = #{diamond,jdbcType=BIGINT},
+      </if>
+      <if test="areaid != null" >
+        areaid = #{areaid,jdbcType=INTEGER},
+      </if>
+      <if test="channelid != null" >
+        channelid = #{channelid,jdbcType=INTEGER},
+      </if>
+      <if test="ftime != null" >
+        ftime = #{ftime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usertype != null" >
+        usertype = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="olduserid != null" >
+        olduserid = #{olduserid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where numid = #{numid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="game.logic.model.Game_users" >
+    update game_users
+    set userid = #{userid,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      head = #{head,jdbcType=INTEGER},
+      devid = #{devid,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      `right` = #{right,jdbcType=INTEGER},
+      gold = #{gold,jdbcType=BIGINT},
+      diamond = #{diamond,jdbcType=BIGINT},
+      areaid = #{areaid,jdbcType=INTEGER},
+      channelid = #{channelid,jdbcType=INTEGER},
+      ftime = #{ftime,jdbcType=TIMESTAMP},
+      usertype = #{usertype,jdbcType=INTEGER},
+      olduserid = #{olduserid,jdbcType=VARCHAR}
+    where numid = #{numid,jdbcType=INTEGER}
+  </update>
+   <select id="selectByUser" resultMap="BaseResultMap" parameterType="game.logic.model.Game_users" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_users
+    where 1=1 
+    
+    <if test="userid != null" >
+       and userid = #{userid,jdbcType=VARCHAR}
+      </if>
+      <if test="nickname != null" >
+      and  nickname = #{nickname,jdbcType=VARCHAR}
+      </if>
+      <if test="passwd != null" >
+      and  passwd = #{passwd,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+      and  sex = #{sex,jdbcType=INTEGER}
+      </if>
+      <if test="head != null" >
+     and   head = #{head,jdbcType=INTEGER}
+      </if>
+      <if test="devid != null" >
+     and   devid = #{devid,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+      and  mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="realname != null" >
+     and   realname = #{realname,jdbcType=VARCHAR}
+      </if>
+      <if test="right != null" >
+    and    `right` = #{right,jdbcType=INTEGER}
+      </if>
+      <if test="gold != null" >
+   and     gold = #{gold,jdbcType=BIGINT}
+      </if>
+      <if test="diamond != null" >
+     and   diamond = #{diamond,jdbcType=BIGINT}
+      </if>
+      <if test="areaid != null" >
+    and    areaid = #{areaid,jdbcType=INTEGER}
+      </if>
+      <if test="channelid != null" >
+    and    channelid = #{channelid,jdbcType=INTEGER}
+      </if>
+      <if test="ftime != null" >
+    and    ftime = #{ftime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="usertype != null" >
+    and    usertype = #{usertype,jdbcType=INTEGER}
+      </if>
+      <if test="olduserid != null" >
+    and    olduserid = #{olduserid,jdbcType=VARCHAR}
+      </if>
+      
+      limit 0,1
+  </select>
+  <update id="addGold" parameterType="game.logic.model.Game_users" >
+    update game_users
+    set 
+      gold = gold+{gold,jdbcType=BIGINT} 
+    where numid = #{numid,jdbcType=INTEGER}
+  </update>
+  <update id="reduceGold" parameterType="game.logic.model.Game_users" >
+    update game_users
+    set 
+      gold = gold-{gold,jdbcType=BIGINT} 
+    where numid = #{numid,jdbcType=INTEGER} and gold&gt;={gold,jdbcType=BIGINT} 
+  </update>
+</mapper>

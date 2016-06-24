@@ -33,26 +33,17 @@
 		</property>
 		<property name="sleepTimeMS" value="${app.handler.sleepTimeMS}" />
 		<property name="sleepTimeNS" value="${app.handler.sleepTimeNS}" />
-		<property name="handlerMap" ref="gameHandlerMap" />
+		<property name="controllerArray" ref="gameControllerArray" />
 	</bean>
 
-	<bean id="gameHandlerMap" class="java.util.HashMap">
+	<bean id="gameControllerArray" class="java.util.ArrayList">
 		<constructor-arg>
-			<map>
-				<entry key="12000">
-					<bean class="game.logic.controller.LoginController">
-					</bean>
-				</entry>
-				<entry key="12001">
-					<bean class="game.logic.controller.ProtobufTestController">
-					</bean>
-				</entry>
-				<entry key="12002">
-					<bean class="game.logic.controller.BroadCastController">
-					</bean>
-				</entry>
-			</map>
+			<list>
+				<bean class="game.logic.controller.LoginController">
+				</bean>
+				<bean class="game.logic.controller.ProtobufTestController">
+				</bean>
+			</list>
 		</constructor-arg>
 	</bean>
-
 </beans>

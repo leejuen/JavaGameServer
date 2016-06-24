@@ -27,6 +27,10 @@ public class MessageSender {
 		
 	}
 	
+	public static Integer getNumIdByContext(ChannelHandlerContext context) {
+		return reverseBindMap.get(context);
+	}
+	
 	/**
 	 * 将数字id与连接绑定
 	 * @param numId
@@ -65,7 +69,7 @@ public class MessageSender {
 	 * @param id
 	 * @param msg
 	 */
-	public static void sendMessage(ChannelHandlerContext context,int id,MessageLite msg) {
+	public static void sendMessage(ChannelHandlerContext context,short id,MessageLite msg) {
 		try {
 			context.writeAndFlush(new Message(id,msg.toByteArray()).toByteArray());
 		} catch (Exception e) {
@@ -79,7 +83,21 @@ public class MessageSender {
 	 * @param id
 	 * @param msg
 	 */
-	public static void sendMessage(int numId,int id,MessageLite msg) {
+	public static void sendMessage(int numId,Message msg) {
+		try {
+			bindMap.get(numId).writeAndFlush(msg.toByteArray());
+		} catch (Exception e) {
+			MessageSender.logger.error(ExceptionUtils.getStackTrace(e));
+		}
+	}
+	
+	/**
+	 * 将消息发送给指定numid的玩家
+	 * @param numId
+	 * @param id
+	 * @param msg
+	 */
+	public static void sendMessage(int numId,short id,MessageLite msg) {
 		try {
 			bindMap.get(numId).writeAndFlush(new Message(id,msg.toByteArray()).toByteArray());
 		} catch (Exception e) {
@@ -93,7 +111,7 @@ public class MessageSender {
 	 * @param id
 	 * @param msg
 	 */
-	public static void sendMessageByIds(int[] numIds,int id,MessageLite msg){
+	public static void sendMessageByIds(int[] numIds,short id,MessageLite msg){
 		try {
 			byte[] message= new Message(id,msg.toByteArray()).toByteArray();
 			for(int numId : numIds){
@@ -109,7 +127,7 @@ public class MessageSender {
 	 * @param id
 	 * @param msg
 	 */
-	public static void sendMessageAll(int id,MessageLite msg){
+	public static void sendMessageAll(short id,MessageLite msg){
 		try {
 			byte[] message= new Message(id,msg.toByteArray()).toByteArray();
 			for(ChannelHandlerContext context : bindMap.values()) {

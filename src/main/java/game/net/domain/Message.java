@@ -1,4 +1,8 @@
 package game.net.domain;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -9,27 +13,40 @@ import io.netty.buffer.ByteBuf;
  */
 public class Message {
 	private int id;
+	private int appid;
 	private byte[] data;
 	public Message(ByteBuf msg) {
-		this.id = msg.readInt();
+		this.id = msg.readUnsignedShort();
+		this.appid = msg.readUnsignedShort();
 		int length = msg.readUnsignedShort();
 		this.data = msg.readBytes(length).array();
 	}
-	public Message(int id,byte[] data) throws Exception{
+	
+	public Message(int id,byte[] data){
+		this(id,1000,data);
+	}
+	
+	public Message(int id,int appid,byte[] data){
 		this.id = id;
-		if(data.length > 0xFFFF) {
-			throw new Exception("the data len = "+data.length+" is too long");
-		}
+		this.appid = appid;
 		this.data = data;
 	}
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(short id) {
 		this.id = id;
 	}
 
+	public int getAppid() {
+		return appid;
+	}
+	
+	public void setAppid(short appid) {
+		this.appid = appid;
+	}
+	
 	public byte[] getData() {
 		return data;
 	}
@@ -42,24 +59,16 @@ public class Message {
 	 * 如果data的数据大于65535则会跑出参数异常
 	 * @return
 	 */
-	public byte[] toByteArray(){
-		final byte[] result = new byte[6+this.data.length];
-		int tmpId = this.id;
-		int tmpLen = this.data.length;
-		//封装id
-		for(int i=0;i<4;i++) {
-			result[i] = new Integer(tmpId & 0xff).byteValue();
-			tmpId = tmpId >> 8; // 向右移8位 
+	public byte[] toByteArray() throws Exception{
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		DataOutputStream output = new DataOutputStream(byteStream);
+		output.writeShort(this.id);
+		output.writeShort(this.appid);
+		output.writeShort(this.data.length);
+		for(int i=0;i<this.data.length;i++) {
+			output.writeByte(this.data[i]);
 		}
-		//封装长度
-		for(int i=4;i<6;i++) {
-			result[i] = new Integer(tmpLen & 0xff).byteValue();
-			tmpLen = tmpLen >> 8; // 向右移8位 
-		}
-		//封装msg
-		for(int i=6;i<result.length;i++) {
-			result[i] = this.data[i-6];
-		}
-		return result;
+		output.flush();
+		return byteStream.toByteArray();
 	}
 }

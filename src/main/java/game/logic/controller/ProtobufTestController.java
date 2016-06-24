@@ -7,6 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import game.logic.entity.PersonOuterClass;
 import game.net.domain.Message;
+import game.net.domain.MessageController;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ProtobufTestController implements MessageController{
@@ -23,5 +24,15 @@ public class ProtobufTestController implements MessageController{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public int getXYStart() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int getXYEnd() {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 }

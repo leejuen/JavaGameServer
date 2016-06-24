@@ -1,5 +1,5 @@
 package game.net.dispatcher;
-
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -8,11 +8,10 @@ import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import game.logic.controller.MessageController;
 import game.net.domain.Message;
+import game.net.domain.MessageController;
 import game.net.domain.MessageQueue;
 import game.net.utils.ExceptionUtils;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -25,7 +24,7 @@ public class HandlerDispatcher implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(HandlerDispatcher.class);
 	private final Map<ChannelHandlerContext, MessageQueue> sessionMsgQ;
 	private Executor messageExecutor;
-	private Map<Integer, MessageController> handlerMap;
+	private List<MessageController> controllerArray;
 	private boolean running;
 	private long sleepTimeMS;
 	private int sleepTimeNS;
@@ -37,8 +36,8 @@ public class HandlerDispatcher implements Runnable {
 		this.sleepTimeNS = 0;
 	}
 
-	public void setHandlerMap(Map<Integer, MessageController> handlerMap) {
-		this.handlerMap = handlerMap;
+	public void setControllerArray(List<MessageController> controllerArray) {
+		this.controllerArray = controllerArray;
 	}
 
 	public void setMessageExecutor(Executor messageExecutor) {
@@ -138,7 +137,13 @@ public class HandlerDispatcher implements Runnable {
 		private void handMessageQueue() {
 			// TODO 此处执行事件的分发
 			int messageId = this.request.getId();
-			MessageController handler = (MessageController) HandlerDispatcher.this.handlerMap.get(Integer.valueOf(messageId));
+			MessageController handler = null;
+			for(MessageController controller : HandlerDispatcher.this.controllerArray) {
+				if(controller.getXYStart() <= messageId && messageId <= controller.getXYEnd()) {
+					handler = controller;
+					break;
+				}
+			}			
 			if (handler != null) {
 				handler.execute(this.context,this.request);
 			} else {
